@@ -19,67 +19,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gymapplication.ui.theme.GymApplicationTheme
-import com.example.gymapplication.components.HomePageButton
+import com.example.gymapplication.components.LargeButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            GymApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    ) {
-                        FlowRow(
-                            modifier = Modifier
-                                .align(Alignment.TopCenter)
-                                .padding(innerPadding),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            HomePageButton(
-                                imageRes = R.drawable.odlaw,
-                                text = "Profile",
-                                onClick = { /* navigate to Profile page */ }
-                            )
-                            HomePageButton(
-                                imageRes = R.drawable.wenda,
-                                text = "Settings",
-                                onClick = { /* navigate to Settings page */ }
-                            )
-                            HomePageButton(
-                                imageRes = R.drawable.wenda,
-                                text = "Anotha button",
-                                onClick = { }
-                            )
-                            HomePageButton(
-                                imageRes = R.drawable.odlaw,
-                                text = "Ay yo",
-                                onClick = { }
-                            )
-                        }
-                    }
-                }
-            }
+            Navigation()
         }
     }
 }
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GymApplicationTheme {
-        Greeting("Android")
-    }
-}
+//
+//@Composable
+//fun Greeting(name: String, modifier: Modifier = Modifier) {
+//    Text(
+//        text = "Hello $name!",
+//        modifier = modifier
+//    )
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    GymApplicationTheme {
+//        Greeting("Android")
+//    }
+//}

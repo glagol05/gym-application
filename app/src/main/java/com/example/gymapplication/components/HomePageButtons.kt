@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun HomePageButton(imageRes: Int, text: String, onClick: () -> Unit) {
+fun LargeButton(imageRes: Int, text: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier
