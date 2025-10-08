@@ -33,27 +33,27 @@ fun MainScreen(navController: NavController) {
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     LargeButton(
-                        imageRes = R.drawable.odlaw,
+                        imageRes = R.drawable.exercise,
                         text = "Add Workout",
                         onClick = {navController.navigate(Screen.AddWorkout.route)}
                     )
                     LargeButton(
-                        imageRes = R.drawable.wenda,
+                        imageRes = R.drawable.statistics,
                         text = "Exercise Statistics",
                         onClick = {navController.navigate(Screen.WorkoutStatistics.route)}
                     )
                     LargeButton(
-                        imageRes = R.drawable.wenda,
+                        imageRes = R.drawable.calendar,
                         text = "Calendar",
                         onClick = {navController.navigate(Screen.Calendar.route)}
                     )
                     LargeButton(
-                        imageRes = R.drawable.odlaw,
+                        imageRes = R.drawable.template,
                         text = "Template",
                         onClick = {navController.navigate(Screen.Template.route)}
                     )
                     LargeButton(
-                        imageRes = R.drawable.odlaw,
+                        imageRes = R.drawable.settings,
                         text = "Settings",
                         onClick = {navController.navigate(Screen.Settings.route)}
                     )
