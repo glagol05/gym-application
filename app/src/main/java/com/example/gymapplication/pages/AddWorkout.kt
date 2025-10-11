@@ -21,8 +21,10 @@ import com.example.gymapplication.Screen
 import com.example.gymapplication.components.DatePicker
 import com.example.gymapplication.components.LargeButton
 import android.net.Uri
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import java.util.Calendar
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddWorkout(navController : NavController) {
     val calendar = Calendar.getInstance()

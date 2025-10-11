@@ -13,7 +13,7 @@ interface WorkoutDao{
     suspend fun upsertWorkout(workout: Workout)
 
     @Delete
-    suspend fun deleteContact(workoutDao: Workout)
+    suspend fun deleteWorkout(workout: Workout)
 
     @Query("SELECT * FROM workouts ORDER BY date ASC")
     fun getWorkoutsByDate(): Flow<List<Workout>>
