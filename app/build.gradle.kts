@@ -51,6 +51,7 @@ dependencies {
     // Compose BOM
     implementation(platform("androidx.compose:compose-bom:2024.09.03"))
     implementation("androidx.compose.foundation:foundation-layout:1.5.0")
+    implementation(libs.androidx.room.ktx)
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.09.03"))
 
     // Compose UI

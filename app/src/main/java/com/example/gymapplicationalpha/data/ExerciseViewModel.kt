@@ -33,7 +33,8 @@ class ExerciseViewModel(
             exercises = exercises,
             sortType = sortType
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseState())
+    }
+    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseState())
 
     fun onEvent(event: ExerciseEvent) {
         when(event) {

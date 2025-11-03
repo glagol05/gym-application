@@ -2,9 +2,9 @@ package com.example.gymapplicationalpha.data
 
 sealed interface WorkoutEvent {
 
-    object saveWorkout: WorkoutEvent
+    object SaveWorkout: WorkoutEvent
 
-    object deleteWorkout: WorkoutEvent
+    data class DeleteWorkout(val workout: Workout): WorkoutEvent
 
     data class AddWorkoutExerciseCrossRef(
         val workoutSession: Int,
@@ -17,7 +17,5 @@ sealed interface WorkoutEvent {
     ): WorkoutEvent
 
     data class SortWorkout(val SortType: SortType): WorkoutEvent
-
-
 
 }
