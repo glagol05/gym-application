@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-data class WorkoutWithExercises (
+data class WorkoutWIthExercises (
     @Embedded val workout: Workout,
     @Relation(
         parentColumn = "workoutSession",

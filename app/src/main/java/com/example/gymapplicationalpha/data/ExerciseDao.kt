@@ -19,8 +19,11 @@ interface ExerciseDao {
     @Insert
     suspend fun addExerciseToWorkout(crossRef: WorkoutExerciseCrossRef)
 
-    @Query("DELETE FROM WorkoutExerciseCrossRef WHERE workoutSession = :workoutSession AND exerciseName = :exerciseName")
-    suspend fun removeExerciseFromWorkout(workoutSession: Int, exerciseName: String)
+    @Delete
+    suspend fun removeExerciseFromWorkout(crossRef: WorkoutExerciseCrossRef)
+
+    //@Query("DELETE FROM WorkoutExerciseCrossRef WHERE workoutSession = :workoutSession AND exerciseName = :exerciseName")
+    //suspend fun removeExerciseFromWorkout(workoutSession: Int, exerciseName: String)
 
     @Query("SELECT * FROM exercises ORDER BY exerciseName ASC")
     suspend fun getExercisesByName(): Flow<List<Exercise>>
