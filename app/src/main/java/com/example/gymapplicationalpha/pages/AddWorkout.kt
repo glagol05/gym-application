@@ -61,7 +61,7 @@ fun AddWorkout(
             value = state.type,
             onValueChange = {
                 exerciseViewModel.onEvent(ExerciseEvent.setExerciseType(it))
-                exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage(R.drawable.bench_press))
+                //exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage(R.drawable.squat))
                 },
             label = { Text("Exercise type") }
         )
