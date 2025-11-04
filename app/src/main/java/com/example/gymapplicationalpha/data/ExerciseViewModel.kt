@@ -1,5 +1,6 @@
 package com.example.gymapplicationalpha.data
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -78,6 +79,22 @@ class ExerciseViewModel(
             }
             is ExerciseEvent.SortExercise -> {
                 _sortType.value = event.SortType
+            }
+
+            is ExerciseEvent.setExerciseImage -> {
+                _state.update { it.copy(
+                    imageRes = event.imageRes
+                ) }
+            }
+            is ExerciseEvent.setExerciseName -> {
+                _state.update { it.copy(
+                    name = event.exerciseName
+                ) }
+            }
+            is ExerciseEvent.setExerciseType -> {
+                _state.update { it.copy(
+                    type = event.exerciseType
+                ) }
             }
         }
     }

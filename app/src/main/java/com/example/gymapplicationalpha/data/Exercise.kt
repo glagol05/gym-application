@@ -1,5 +1,6 @@
 package com.example.gymapplicationalpha.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,7 +8,10 @@ import androidx.room.PrimaryKey
 data class Exercise (
     @PrimaryKey(autoGenerate = true)
     val exerciseId: Int = 0,
+    @ColumnInfo(name = "exerciseName")
     val exerciseName: String,
+    @ColumnInfo(name = "exerciseType")
     val exerciseType: String,
+    @ColumnInfo(name = "imageRes")
     val imageRes: Int
 )

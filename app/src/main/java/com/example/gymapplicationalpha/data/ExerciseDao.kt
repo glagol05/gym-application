@@ -1,5 +1,6 @@
 package com.example.gymapplicationalpha.data
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -12,7 +13,6 @@ interface ExerciseDao {
 
     @Upsert
     suspend fun upsertExercise(exercise: Exercise)
-
     @Delete
     suspend fun deleteExercise(exercise: Exercise)
 
