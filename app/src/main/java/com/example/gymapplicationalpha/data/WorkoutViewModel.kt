@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class WorkoutViewModel (
+class WorkoutViewModel(
     private val workoutDao: WorkoutDao
 ): ViewModel() {
 

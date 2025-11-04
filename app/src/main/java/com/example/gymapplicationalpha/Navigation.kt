@@ -1,9 +1,13 @@
 package com.example.gymapplicationalpha
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.gymapplicationalpha.data.ExerciseViewModel
+import com.example.gymapplicationalpha.data.WorkoutViewModel
+import com.example.gymapplicationalpha.pages.AddExerciseScreen
 import com.example.gymapplicationalpha.pages.AddWorkout
 import com.example.gymapplicationalpha.pages.Calendar
 import com.example.gymapplicationalpha.pages.MainScreen
@@ -19,7 +23,12 @@ fun Navigation() {
             MainScreen(navController = navController)
         }
         composable(route = Screen.AddWorkout.route) {
-            AddWorkout(navController = navController)
+            AddWorkout(
+                navController = navController
+            )
+        }
+        composable(route = Screen.AddExerciseScreen.route) {
+            AddExerciseScreen(navController = navController)
         }
         composable(route = Screen.Statistics.route) {
             Statistics(navController = navController)

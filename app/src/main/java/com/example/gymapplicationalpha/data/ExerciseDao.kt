@@ -26,9 +26,9 @@ interface ExerciseDao {
     //suspend fun removeExerciseFromWorkout(workoutSession: Int, exerciseName: String)
 
     @Query("SELECT * FROM exercises ORDER BY exerciseName ASC")
-    suspend fun getExercisesByName(): Flow<List<Exercise>>
+    fun getExercisesByName(): Flow<List<Exercise>>
 
     @Query("SELECT * FROM exercises ORDER BY exerciseType ASC")
-    suspend fun getExercisesByType(): Flow<List<Exercise>>
+    fun getExercisesByType(): Flow<List<Exercise>>
 
 }
