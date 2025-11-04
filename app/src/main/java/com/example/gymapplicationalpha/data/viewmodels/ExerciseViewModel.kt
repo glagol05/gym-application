@@ -1,8 +1,13 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.gymapplicationalpha.data.SortType
+import com.example.gymapplicationalpha.data.daos.ExerciseDao
+import com.example.gymapplicationalpha.data.entity.Exercise
+import com.example.gymapplicationalpha.data.events.ExerciseEvent
+import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
+import com.example.gymapplicationalpha.data.states.ExerciseState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +31,7 @@ class ExerciseViewModel(
                 else -> exerciseDao.getExercisesByName()
             }
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), emptyList())
 
     private val _state = MutableStateFlow(ExerciseState())
     val state = combine(_state, _sortType, _exercises) { state, sortType, exercises ->
@@ -35,7 +40,7 @@ class ExerciseViewModel(
             sortType = sortType
         )
     }
-    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseState())
+    .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), ExerciseState())
 
     fun onEvent(event: ExerciseEvent) {
         when(event) {
@@ -75,7 +80,7 @@ class ExerciseViewModel(
                 viewModelScope.launch {
                     exerciseDao.upsertExercise(exercise)
                 }
-                _state.update{ it.copy(name = "", type = "", imageRes = 0) }
+                _state.update { it.copy(name = "", type = "", imageRes = 0) }
             }
             is ExerciseEvent.SortExercise -> {
                 _sortType.value = event.SortType

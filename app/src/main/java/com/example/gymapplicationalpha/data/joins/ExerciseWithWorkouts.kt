@@ -1,8 +1,11 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.joins
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
+import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
+import com.example.gymapplicationalpha.data.entity.Exercise
+import com.example.gymapplicationalpha.data.entity.Workout
 
 data class ExercisesWithWorkouts (
     @Embedded val exercise: Exercise,

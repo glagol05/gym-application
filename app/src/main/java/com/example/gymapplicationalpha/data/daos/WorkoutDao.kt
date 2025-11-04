@@ -1,10 +1,13 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.daos
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import com.example.gymapplicationalpha.data.entity.Exercise
+import com.example.gymapplicationalpha.data.entity.Workout
+import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
 import kotlinx.coroutines.flow.Flow
 
 @Dao

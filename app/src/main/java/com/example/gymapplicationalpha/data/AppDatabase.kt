@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instanc
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.gymapplicationalpha.data.daos.ExerciseDao
+import com.example.gymapplicationalpha.data.daos.WorkoutDao
+import com.example.gymapplicationalpha.data.entity.Exercise
+import com.example.gymapplicationalpha.data.entity.Workout
 import kotlin.synchronized
 
 @Database(

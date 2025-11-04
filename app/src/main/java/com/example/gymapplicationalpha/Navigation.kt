@@ -5,8 +5,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.gymapplicationalpha.data.ExerciseViewModel
-import com.example.gymapplicationalpha.data.WorkoutViewModel
+import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
+import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
+import com.example.gymapplicationalpha.pages.AddExercise
 import com.example.gymapplicationalpha.pages.AddExerciseScreen
 import com.example.gymapplicationalpha.pages.AddWorkout
 import com.example.gymapplicationalpha.pages.Calendar
@@ -29,6 +30,9 @@ fun Navigation() {
         }
         composable(route = Screen.AddExerciseScreen.route) {
             AddExerciseScreen(navController = navController)
+        }
+        composable(route = Screen.AddExercise.route) {
+            AddExercise(navController = navController)
         }
         composable(route = Screen.Statistics.route) {
             Statistics(navController = navController)

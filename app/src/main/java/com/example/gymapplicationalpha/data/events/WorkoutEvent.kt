@@ -1,4 +1,7 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.events
+
+import com.example.gymapplicationalpha.data.SortType
+import com.example.gymapplicationalpha.data.entity.Workout
 
 sealed interface WorkoutEvent {
 

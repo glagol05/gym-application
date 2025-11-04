@@ -1,4 +1,4 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

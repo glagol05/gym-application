@@ -1,14 +1,18 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.util.copy
+import com.example.gymapplicationalpha.data.SortType
+import com.example.gymapplicationalpha.data.daos.WorkoutDao
+import com.example.gymapplicationalpha.data.entity.Workout
+import com.example.gymapplicationalpha.data.events.WorkoutEvent
+import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
+import com.example.gymapplicationalpha.data.states.WorkoutState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel(
@@ -24,7 +28,7 @@ class WorkoutViewModel(
                 else -> workoutDao.getWorkoutsByDate()
             }
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), emptyList())
 
     private val _state = MutableStateFlow(WorkoutState())
 
@@ -34,7 +38,7 @@ class WorkoutViewModel(
             sortType = sortType
         )
     }
-    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), WorkoutState())
+    .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), WorkoutState())
 
 
     fun onEvent(event: WorkoutEvent) {

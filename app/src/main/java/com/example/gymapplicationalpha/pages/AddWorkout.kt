@@ -23,10 +23,10 @@ import com.example.gymapplicationalpha.R
 import com.example.gymapplicationalpha.Screen
 import com.example.gymapplicationalpha.components.AddExerciseRow
 import com.example.gymapplicationalpha.data.AppDatabase
-import com.example.gymapplicationalpha.data.ExerciseEvent
-import com.example.gymapplicationalpha.data.ExerciseViewModel
+import com.example.gymapplicationalpha.data.events.ExerciseEvent
+import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
 import com.example.gymapplicationalpha.data.WorkoutDao_Impl
-import com.example.gymapplicationalpha.data.WorkoutViewModel
+import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
 @Composable
 fun AddWorkout(

@@ -1,7 +1,4 @@
-package com.example.gymapplicationalpha.data
-
-import androidx.room.Entity
-import java.util.Date
+package com.example.gymapplicationalpha.data.joins
 
 @Entity(primaryKeys = ["workoutSession", "exerciseName"])
 data class WorkoutExerciseCrossRef (

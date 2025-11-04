@@ -1,10 +1,10 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity (tableName = "exercises")
+@Entity(tableName = "exercises")
 data class Exercise (
     @PrimaryKey(autoGenerate = true)
     val exerciseId: Int = 0,

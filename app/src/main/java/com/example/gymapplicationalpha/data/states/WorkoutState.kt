@@ -1,4 +1,7 @@
-package com.example.gymapplicationalpha.data
+package com.example.gymapplicationalpha.data.states
+
+import com.example.gymapplicationalpha.data.SortType
+import com.example.gymapplicationalpha.data.entity.Workout
 
 data class WorkoutState(
     val workouts: List<Workout> = emptyList(),
