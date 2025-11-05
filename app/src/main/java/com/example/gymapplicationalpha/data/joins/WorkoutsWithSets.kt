@@ -1,10 +1,11 @@
+package com.example.gymapplicationalpha.data.joins
+
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.Workout
 import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
-import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
 
 data class WorkoutWithSets(
     @Embedded val workout: Workout,
@@ -15,7 +16,7 @@ data class WorkoutWithSets(
     )
     val exercises: List<Exercise>,
     @Relation(
-        parentColumn = "exerciseName",
+        parentColumn = "workoutSession",
         entityColumn = "exerciseName"
     )
     val sets: List<WorkoutExerciseSet>

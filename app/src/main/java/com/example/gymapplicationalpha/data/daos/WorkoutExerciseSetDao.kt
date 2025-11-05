@@ -1,6 +1,6 @@
 package com.example.gymapplicationalpha.data.daos
 
-import WorkoutWithSets
+import com.example.gymapplicationalpha.data.joins.WorkoutWithSets
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query

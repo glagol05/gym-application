@@ -7,23 +7,28 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.gymapplicationalpha.data.daos.ExerciseDao
 import com.example.gymapplicationalpha.data.daos.WorkoutDao
+import com.example.gymapplicationalpha.data.daos.WorkoutExerciseSetDao
 import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.Workout
+import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
+import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
 import kotlin.synchronized
 
 @Database(
     entities = [
         Workout::class,
         Exercise::class,
+        WorkoutExerciseSet::class,
         WorkoutExerciseCrossRef::class
     ],
-    version = 1
+    version = 2
 )
 
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val workoutDao: WorkoutDao
     abstract val exerciseDao: ExerciseDao
+    abstract val workoutExerciseSetDao: WorkoutExerciseSetDao
 
     companion object {
         @Volatile
