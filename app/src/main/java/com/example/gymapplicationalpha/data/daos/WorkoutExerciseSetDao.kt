@@ -1,12 +1,27 @@
 package com.example.gymapplicationalpha.data.daos
 
+import WorkoutWithSets
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Upsert
 import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WorkoutExerciseSetDao {
 
-    @Query("SELECT * FROM workout_exercise_sets WHERE workoutId = :workoutId AND exerciseName = :exerciseName")
-    suspend fun getSetsForExerciseInWorkout(workoutId: Int, exerciseName: String): List<WorkoutExerciseSet>
+    @Upsert
+    suspend fun upsertSet (workoutExerciseSet: WorkoutExerciseSet)
+
+    @Delete
+    suspend fun deleteSet (workoutExerciseSet: WorkoutExerciseSet)
+
+    @Transaction
+    @Query("SELECT * FROM workouts WHERE workoutSession = :workoutId")
+    fun getWorkoutWithSets(workoutId: Int): List<WorkoutWithSets>
+
+    @Query("SELECT * FROM workout_exercise_sets WHERE workoutId = :workoutId AND exerciseName = :exerciseName ORDER BY setNumber ASC")
+    fun getSetsForExerciseInWorkout(workoutId: Int, exerciseName: String): Flow<List<WorkoutExerciseSet>>
 }
