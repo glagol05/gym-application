@@ -1,21 +1,44 @@
 package com.example.gymapplicationalpha.pages
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gymapplicationalpha.Screen
+import com.example.gymapplicationalpha.components.WorkoutCard
+import com.example.gymapplicationalpha.data.AppDatabase
+import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
 @Composable
 fun Workout(navController: NavController) {
-    Box(
+
+    val context = LocalContext.current
+    val appDatabase = AppDatabase.getInstance(context)
+
+    val workoutDao = appDatabase.workoutDao
+
+    val workoutViewModel : WorkoutViewModel = remember {
+        WorkoutViewModel(workoutDao = workoutDao)
+    }
+
+    val state by workoutViewModel.state.collectAsState()
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
@@ -23,11 +46,51 @@ fun Workout(navController: NavController) {
         Button(
             onClick = { navController.navigate(Screen.AddWorkout.route) },
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 32.dp)
+                .padding(top = 32.dp)
                 .fillMaxWidth()
         ) {
             Text("Add workout session")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        WorkoutCard(
+            "Test",
+            "test",
+            onClick = {},
+            modifier = Modifier
+                .padding(top = 96.dp))
+
+        WorkoutCard(
+            "Test",
+            "test",
+            onClick = {},
+            modifier = Modifier
+                .padding(top = 96.dp))
+
+        WorkoutCard(
+            "Test",
+            "test",
+            onClick = {},
+            modifier = Modifier
+                .padding(top = 96.dp))
+
+        WorkoutCard(
+            "Test4444",
+            "test",
+            onClick = {},
+            modifier = Modifier
+                .padding(top = 96.dp))
+
+        if(state.workouts.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 96.dp)
+            ) {
+
+            }
+        } else {
+            Text("You have no workout sessions registered")
         }
     }
 }
