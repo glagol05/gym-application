@@ -23,7 +23,9 @@ import com.example.gymapplicationalpha.R
 import com.example.gymapplicationalpha.Screen
 import com.example.gymapplicationalpha.components.AddExerciseRow
 import com.example.gymapplicationalpha.data.AppDatabase
+import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.events.ExerciseEvent
+import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
@@ -47,12 +49,14 @@ fun AddWorkout(
 
     val state by exerciseViewModel.state.collectAsState()
 
+    val exerciseChoices = ArrayList<Exercise>()
+
     Column(modifier = Modifier.padding(16.dp)) {
         AddExerciseRow(onAddExerciseClicked = { navController.navigate(Screen.AddExerciseScreen.route) })
         TextField(
             value = state.name,
             onValueChange = {
-                exerciseViewModel.onEvent(ExerciseEvent.setExerciseName(it))
+                workoutViewModel.onEvent(WorkoutEvent.setWorkoutType(it))
                 },
             label = { Text("Exercise name") }
         )
@@ -68,7 +72,6 @@ fun AddWorkout(
         //exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage(R.drawable.bench_press))
 
         Button(onClick = {
-
             exerciseViewModel.onEvent(ExerciseEvent.SaveExercise)
         }) {
             Text("Save exercise")

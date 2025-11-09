@@ -54,16 +54,15 @@ fun AddExercise(
     val state by exerciseViewModel.state.collectAsState()
 
     Column(modifier = Modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp)) {
-        // Exercise Name Input
         TextField(
             value = state.name,
             onValueChange = {
                 exerciseViewModel.onEvent(ExerciseEvent.setExerciseName(it))
+                //exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage(R.drawable.pullup))
             },
             label = { Text("Exercise name") }
         )
 
-        // Exercise Type Input
         TextField(
             value = state.type,
             onValueChange = {
@@ -72,7 +71,6 @@ fun AddExercise(
             label = { Text("Exercise type") }
         )
 
-        // Save Button
         Button(onClick = {
             exerciseViewModel.onEvent(ExerciseEvent.SaveExercise)
         }) {
@@ -91,7 +89,6 @@ fun AddExercise(
                             .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Show exercise image if valid
                         if (exercise.imageRes != 0) {
                             Image(
                                 painter = painterResource(id = exercise.imageRes),
@@ -116,6 +113,11 @@ fun AddExercise(
                             fontSize = 20.sp,
                             modifier = Modifier.padding(start = 16.dp)
                         )
+                        Button(onClick = {
+                            exerciseViewModel.onEvent(ExerciseEvent.DeleteExercise(exercise))
+                        }) {
+                                Text("Delete exercise")
+                        }
                     }
                 }
             }

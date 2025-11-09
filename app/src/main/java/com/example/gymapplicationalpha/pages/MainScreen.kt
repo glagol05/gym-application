@@ -37,8 +37,8 @@ fun MainScreen(navController: NavController) {
                 ) {
                     LargeButton(
                         imageRes = R.drawable.exercise,
-                        text = "Add Workout",
-                        onClick = { navController.navigate(Screen.AddWorkout.route) }
+                        text = "Workouts",
+                        onClick = { navController.navigate(Screen.Workout.route) }
                     )
                     LargeButton(
                        imageRes = R.drawable.statistics,

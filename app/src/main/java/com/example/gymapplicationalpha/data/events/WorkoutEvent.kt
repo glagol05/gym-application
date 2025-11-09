@@ -9,6 +9,10 @@ sealed interface WorkoutEvent {
 
     data class DeleteWorkout(val workout: Workout): WorkoutEvent
 
+    data class setWorkoutDate(val workoutDate: String): WorkoutEvent
+    data class setWorkoutType(val workoutType: String): WorkoutEvent
+    data class setWorkoutDescription(val workoutDescription: String): WorkoutEvent
+
     data class AddWorkoutExerciseCrossRef(
         val workoutSession: Int,
         val exerciseName: String

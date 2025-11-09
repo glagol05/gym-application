@@ -14,6 +14,7 @@ import com.example.gymapplicationalpha.pages.Calendar
 import com.example.gymapplicationalpha.pages.MainScreen
 import com.example.gymapplicationalpha.pages.Settings
 import com.example.gymapplicationalpha.pages.Statistics
+import com.example.gymapplicationalpha.pages.Workout
 
 @Composable
 fun Navigation() {
@@ -23,10 +24,11 @@ fun Navigation() {
         composable(route = Screen.MainScreen.route) {
             MainScreen(navController = navController)
         }
+        composable(route = Screen.Workout.route) {
+            Workout(navController = navController)
+        }
         composable(route = Screen.AddWorkout.route) {
-            AddWorkout(
-                navController = navController
-            )
+            AddWorkout(navController = navController)
         }
         composable(route = Screen.AddExerciseScreen.route) {
             AddExerciseScreen(navController = navController)

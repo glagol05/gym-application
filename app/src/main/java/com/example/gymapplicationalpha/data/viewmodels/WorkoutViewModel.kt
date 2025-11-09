@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel(
@@ -81,7 +82,24 @@ class WorkoutViewModel(
                 viewModelScope.launch {
                     workoutDao.upsertWorkout(workout)
                 }
+            }
 
+            is WorkoutEvent.setWorkoutDate -> {
+                _state.update { it.copy(
+                    date = event.workoutDate
+                ) }
+            }
+
+            is WorkoutEvent.setWorkoutType -> {
+                _state.update { it.copy(
+                    type = event.workoutType
+                ) }
+            }
+
+            is WorkoutEvent.setWorkoutDescription -> {
+                _state.update { it.copy(
+                    description = event.workoutDescription
+                ) }
             }
         }
     }
