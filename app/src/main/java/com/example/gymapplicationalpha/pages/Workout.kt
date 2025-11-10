@@ -1,5 +1,9 @@
 package com.example.gymapplicationalpha.pages
 
+import SimpleDatePickerField
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +32,13 @@ import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 @Composable
 fun Workout(navController: NavController) {
 
+    val mockWorkouts = listOf(
+        Triple("Chest", "Bench press", 2),
+        Triple("Legs", "Squat", 3),
+        Triple("Back", "Pullups", 4),
+        Triple("Chest", "Shoulder press", 5)
+    )
+
     val context = LocalContext.current
     val appDatabase = AppDatabase.getInstance(context)
 
@@ -36,11 +50,21 @@ fun Workout(navController: NavController) {
 
     val state by workoutViewModel.state.collectAsState()
 
-    Row(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
             .padding(16.dp)
     ) {
+        SimpleDatePickerField(
+            label = "Select workout date",
+            onDateSelected = { millis ->
+                println("Selected date millis: $millis")
+                // You can also pass this to your ViewModel
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Button(
             onClick = { navController.navigate(Screen.AddWorkout.route) },
             modifier = Modifier
@@ -51,40 +75,21 @@ fun Workout(navController: NavController) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        WorkoutCard(
-            "Test",
-            "test",
-            onClick = {}
-        )
 
-        WorkoutCard(
-            "Test",
-            "test",
-            onClick = {}
-        )
-
-        WorkoutCard(
-            "Test",
-            "test",
-            onClick = {}
-        )
-
-        WorkoutCard(
-            "Test4444",
-            "test",
-            onClick = {}
-        )
-
-        if(state.workouts.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 96.dp)
+       // if(state.workouts.isNotEmpty()) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 120.dp),
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(4.dp),
             ) {
+                items(mockWorkouts) { workout ->
+                    WorkoutCard(
+                        workout.first,
+                        workout.second,
+                        onClick = { println("Clicked $workout") }
+                    )
+                }
 
             }
-        } else {
-            Text("You have no workout sessions registered")
         }
     }
-}

@@ -18,7 +18,7 @@ fun WorkoutCard(workoutDate: String, workoutType: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(120.dp)
-            .height(120.dp)
+            .height(160.dp)
             .clickable(onClick = onClick)
             .padding(8.dp),
         shape = MaterialTheme.shapes.medium

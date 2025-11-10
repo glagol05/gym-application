@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.ads.mobile.sdk)
+    implementation(libs.androidx.compose.foundation)
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.09.03"))
 
     // Compose UI
