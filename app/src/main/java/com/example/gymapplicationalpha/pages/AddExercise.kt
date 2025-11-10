@@ -52,7 +52,7 @@ fun AddExercise(
             value = state.name,
             onValueChange = {
                 exerciseViewModel.onEvent(ExerciseEvent.setExerciseName(it))
-                //exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage(R.drawable.pullup))
+                exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage("squat"))
             },
             label = { Text("Exercise name") }
         )
@@ -87,7 +87,7 @@ fun AddExercise(
                             .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (exercise.imageName.isBlank()) {
+                        if (imageResId != 0) {
                             Image(
                                 painter = painterResource(id = imageResId),
                                 contentDescription = exercise.exerciseName,
