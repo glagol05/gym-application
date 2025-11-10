@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WorkoutCard(workoutDate: String, workoutType: String, onClick: () -> Unit, modifier: Modifier) {
+fun WorkoutCard(workoutDate: String, workoutType: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(120.dp)

@@ -73,14 +73,14 @@ class ExerciseViewModel(
             ExerciseEvent.SaveExercise -> {
                 val name = state.value.name
                 val type = state.value.type
-                val image = state.value.imageRes
+                val image = state.value.imageName
                 if(name.isBlank()) return
 
-                val exercise = Exercise(exerciseName = name, exerciseType = type, imageRes = image)
+                val exercise = Exercise(exerciseName = name, exerciseType = type, imageName = image)
                 viewModelScope.launch {
                     exerciseDao.upsertExercise(exercise)
                 }
-                _state.update { it.copy(name = "", type = "", imageRes = 0) }
+                _state.update { it.copy(name = "", type = "", imageName = "") }
             }
             is ExerciseEvent.SortExercise -> {
                 _sortType.value = event.SortType
@@ -88,7 +88,7 @@ class ExerciseViewModel(
 
             is ExerciseEvent.setExerciseImage -> {
                 _state.update { it.copy(
-                    imageRes = event.imageRes
+                    imageName = event.imageName
                 ) }
             }
             is ExerciseEvent.setExerciseName -> {

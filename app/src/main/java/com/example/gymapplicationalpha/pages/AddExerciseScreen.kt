@@ -1,5 +1,6 @@
 package com.example.gymapplicationalpha.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import com.example.gymapplicationalpha.data.AppDatabase
 import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
+@SuppressLint("LocalContextResourcesRead", "DiscouragedApi")
 @Composable
 fun AddExerciseScreen(navController: NavController) {
     val context = LocalContext.current
@@ -59,15 +61,18 @@ fun AddExerciseScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.exercises) { exercise ->
+                    val imageResId = remember(exercise.imageName) {
+                        context.resources.getIdentifier(exercise.imageName, "drawable", context.packageName)
+                    }
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (exercise.imageRes != 0) {
+                        if (exercise.imageName.isBlank()) {
                             Image(
-                                painter = painterResource(id = exercise.imageRes),
+                                painter = painterResource(id = imageResId),
                                 contentDescription = exercise.exerciseName,
                                 modifier = Modifier.size(64.dp)
                                     .clickable {

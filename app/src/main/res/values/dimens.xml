@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="browser_actions_context_menu_min_padding">8dp</dimen>
+</resources>

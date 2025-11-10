@@ -9,7 +9,7 @@ sealed interface ExerciseEvent {
 
     data class setExerciseName(val exerciseName: String): ExerciseEvent
     data class setExerciseType(val exerciseType: String): ExerciseEvent
-    data class setExerciseImage(val imageRes: Int): ExerciseEvent
+    data class setExerciseImage(val imageName: String): ExerciseEvent
 
     data class AddExerciseToWorkout(
         val workoutSession: Int,

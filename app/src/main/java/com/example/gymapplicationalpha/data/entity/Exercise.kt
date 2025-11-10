@@ -12,6 +12,6 @@ data class Exercise (
     val exerciseName: String,
     @ColumnInfo(name = "exerciseType")
     val exerciseType: String,
-    @ColumnInfo(name = "imageRes")
-    val imageRes: Int
+    @ColumnInfo(name = "imageName")
+    val imageName: String
 )
