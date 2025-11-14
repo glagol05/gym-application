@@ -8,6 +8,7 @@ import com.example.gymapplicationalpha.data.entity.Workout
 import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
 import com.example.gymapplicationalpha.data.states.WorkoutState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -22,6 +23,7 @@ class WorkoutViewModel(
 
     private val _sortType = MutableStateFlow(SortType.WORKOUT_DATE)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val _workouts = _sortType
         .flatMapLatest { sortType ->
             when (sortType) {

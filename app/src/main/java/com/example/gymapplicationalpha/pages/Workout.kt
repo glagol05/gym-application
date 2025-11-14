@@ -59,9 +59,9 @@ fun Workout(navController: NavController) {
     }
 
     val state by workoutViewModel.state.collectAsState()
+    val workouts = state.workouts
 
     var text by remember { mutableStateOf("") }
-
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
 
     Column(
@@ -100,10 +100,10 @@ fun Workout(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(4.dp),
             ) {
-                items(mockWorkouts) { workout ->
+                items(workouts) { workout ->
                     WorkoutCard(
-                        workout.first,
-                        workout.second,
+                        workout.date,
+                        workout.workoutType,
                         onClick = { println("Clicked $workout") }
                     )
                 }
