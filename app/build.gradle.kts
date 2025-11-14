@@ -71,6 +71,10 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
 
+    implementation("io.github.vanpra.compose-material-dialogs:core:0.8.1-rc")
+    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
+    implementation("io.github.vanpra.compose-material-dialogs:color:0.8.1-rc")
+
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.2")
 

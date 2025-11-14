@@ -1,53 +1,70 @@
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SimpleDatePickerField(
-    label: String = "Select date",
-    modifier: Modifier = Modifier,
-    onDateSelected: (Long) -> Unit
-) {
-    val context = LocalContext.current
-    var showDialog by remember { mutableStateOf(false) }
-    var selectedDateMillis by remember { mutableStateOf<Long?>(null) }
+fun SimpleDatePickerField() {
+    var pickedDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
 
-    val displayText = selectedDateMillis?.let {
-        SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(Date(it))
-    } ?: ""
+    val formattedDate by remember {
+        derivedStateOf {
+            DateTimeFormatter
+                .ofPattern("dd MMM")
+                .format(pickedDate)
+        }
+    }
 
-    OutlinedTextField(
-        value = displayText,
-        onValueChange = { },
-        readOnly = true,
-        label = { Text(label) },
-        modifier = modifier.clickable { showDialog = true }
-    )
+    val dateDialogueState = rememberMaterialDialogState()
 
-    if (showDialog) {
-        LaunchedEffect(Unit) {
-            val calendar = Calendar.getInstance()
-            android.app.DatePickerDialog(
-                context,
-                { _, year, month, dayOfMonth ->
-                    calendar.set(year, month, dayOfMonth)
-                    selectedDateMillis = calendar.timeInMillis
-                    onDateSelected(calendar.timeInMillis)
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).apply {
-                setOnCancelListener { showDialog = false }
-                show()
-            }
-            showDialog = false
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            dateDialogueState.show()
+        }) {
+            Text(text = "Pick date")
+        }
+        Text(text = formattedDate)
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+    MaterialDialog(
+        dialogState = dateDialogueState,
+        buttons = {
+            positiveButton(text = "Ok") {  }
+            negativeButton(text = "Cancel") {  }
+        }
+    ) {
+        datepicker(
+            initialDate = LocalDate.now(),
+
+        ) {
+            pickedDate = it
         }
     }
 }

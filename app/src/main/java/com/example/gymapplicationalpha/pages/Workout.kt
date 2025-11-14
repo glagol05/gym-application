@@ -1,6 +1,8 @@
 package com.example.gymapplicationalpha.pages
 
 import SimpleDatePickerField
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +31,7 @@ import com.example.gymapplicationalpha.components.WorkoutCard
 import com.example.gymapplicationalpha.data.AppDatabase
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Workout(navController: NavController) {
 
@@ -52,23 +55,15 @@ fun Workout(navController: NavController) {
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(top = 64.dp, start = 16.dp, end = 16.dp)
     ) {
-        SimpleDatePickerField(
-            label = "Select workout date",
-            onDateSelected = { millis ->
-                println("Selected date millis: $millis")
-                // You can also pass this to your ViewModel
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+        SimpleDatePickerField()
 
-        Spacer(modifier = Modifier.height(16.dp))
+        //Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = { navController.navigate(Screen.AddWorkout.route) },
             modifier = Modifier
-                .padding(top = 32.dp)
                 .fillMaxWidth()
         ) {
             Text("Add workout session")
