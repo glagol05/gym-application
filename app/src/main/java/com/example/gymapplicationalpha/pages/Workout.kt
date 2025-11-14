@@ -1,6 +1,7 @@
 package com.example.gymapplicationalpha.pages
 
 import SimpleDatePickerField
+import android.R.attr.text
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
@@ -18,10 +19,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -29,7 +34,9 @@ import androidx.navigation.NavController
 import com.example.gymapplicationalpha.Screen
 import com.example.gymapplicationalpha.components.WorkoutCard
 import com.example.gymapplicationalpha.data.AppDatabase
+import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
+import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -47,22 +54,38 @@ fun Workout(navController: NavController) {
 
     val workoutDao = appDatabase.workoutDao
 
-    val workoutViewModel : WorkoutViewModel = remember {
+    val workoutViewModel: WorkoutViewModel = remember {
         WorkoutViewModel(workoutDao = workoutDao)
     }
 
     val state by workoutViewModel.state.collectAsState()
 
+    var text by remember { mutableStateOf("") }
+
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+
     Column(
         modifier = Modifier
-            .padding(top = 64.dp, start = 16.dp, end = 16.dp)
+            .padding(top = 64.dp, start = 16.dp, end = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SimpleDatePickerField()
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Workout Type") },
 
-        //Spacer(modifier = Modifier.height(16.dp))
+
+            )
+        SimpleDatePickerField { date ->
+            selectedDate = date
+        }
 
         Button(
-            onClick = { navController.navigate(Screen.AddWorkout.route) },
+            onClick = {
+                workoutViewModel.onEvent(WorkoutEvent.setWorkoutType(text))
+                workoutViewModel.onEvent(WorkoutEvent.setWorkoutDate(selectedDate.toString()))
+                workoutViewModel.onEvent(WorkoutEvent.SaveWorkout)
+            },
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -71,7 +94,7 @@ fun Workout(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-       // if(state.workouts.isNotEmpty()) {
+        if (state.workouts.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 120.dp),
                 modifier = Modifier.fillMaxWidth(),
@@ -88,3 +111,4 @@ fun Workout(navController: NavController) {
             }
         }
     }
+}

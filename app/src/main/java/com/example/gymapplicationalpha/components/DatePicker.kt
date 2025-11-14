@@ -25,7 +25,9 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SimpleDatePickerField() {
+fun SimpleDatePickerField(
+    onDateSelected: (LocalDate) -> Unit
+) {
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
     }
@@ -56,7 +58,9 @@ fun SimpleDatePickerField() {
     MaterialDialog(
         dialogState = dateDialogueState,
         buttons = {
-            positiveButton(text = "Ok") {  }
+            positiveButton(text = "Ok") {
+                onDateSelected(pickedDate)
+            }
             negativeButton(text = "Cancel") {  }
         }
     ) {
