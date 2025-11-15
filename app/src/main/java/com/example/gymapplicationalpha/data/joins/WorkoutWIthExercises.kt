@@ -6,14 +6,14 @@ import androidx.room.Relation
 import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.Workout
 
-data class WorkoutWIthExercises (
+data class WorkoutWithExercises (
     @Embedded val workout: Workout,
     @Relation(
         parentColumn = "workoutSession",
-        entityColumn = "exerciseName",
+        entityColumn = "exerciseId",
         associateBy = Junction(WorkoutExerciseCrossRef::class)
     )
 
-    val workouts: List<Exercise>
+    val exercises: List<Exercise>
 
 )

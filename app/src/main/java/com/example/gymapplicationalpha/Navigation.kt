@@ -48,8 +48,19 @@ fun Navigation() {
         composable(route = Screen.AddWorkout.route) {
             AddWorkout(navController = navController)
         }
-        composable(route = Screen.AddExerciseScreen.route) {
-            AddExerciseScreen(navController = navController)
+        composable(route = Screen.AddExerciseScreen.route,
+            arguments = listOf(navArgument("workoutSession") { type = NavType.IntType })
+        ) { backStackEntry ->
+            
+            val workoutSession = backStackEntry.arguments?.getInt("workoutSession") ?: 0
+            
+            AddExerciseScreen(
+                navController = navController,
+                workoutSession = workoutSession,
+                onExerciseSelected = { exerciseName ->
+                    println("Exercise $exerciseName added to workout $workoutSession")
+                }
+            )
         }
         composable(route = Screen.AddExercise.route) {
             AddExercise(navController = navController)

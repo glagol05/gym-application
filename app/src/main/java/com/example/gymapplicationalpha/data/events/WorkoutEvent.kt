@@ -15,12 +15,12 @@ sealed interface WorkoutEvent {
 
     data class AddWorkoutExerciseCrossRef(
         val workoutSession: Int,
-        val exerciseName: String
+        val exerciseId: Int
     ): WorkoutEvent
 
     data class DeleteWorkoutExerciseCrossRef(
         val workoutSession: Int,
-        val exerciseName: String
+        val exerciseId: Int
     ): WorkoutEvent
 
     data class SortWorkout(val SortType: SortType): WorkoutEvent

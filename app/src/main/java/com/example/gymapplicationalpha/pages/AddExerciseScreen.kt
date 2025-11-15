@@ -28,12 +28,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.gymapplicationalpha.R
 import com.example.gymapplicationalpha.data.AppDatabase
+import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
 @SuppressLint("LocalContextResourcesRead", "DiscouragedApi")
 @Composable
-fun AddExerciseScreen(navController: NavController) {
+fun AddExerciseScreen(
+    navController: NavController,
+    workoutSession: Int,
+    onExerciseSelected: (exerciseName: String) -> Unit
+) {
     val context = LocalContext.current
     val appDatabase = AppDatabase.getInstance(context)
 
@@ -49,54 +54,32 @@ fun AddExerciseScreen(navController: NavController) {
     }
 
     val state by exerciseViewModel.state.collectAsState()
-    Scaffold { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+
+    LazyColumn {
+        items(state.exercises) { exercise ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        // Add the exercise to this workout
+                        workoutViewModel.onEvent(
+                            WorkoutEvent.AddWorkoutExerciseCrossRef(
+                                workoutSession = workoutSession,
+                                exerciseId = exercise.exerciseId
+                            )
+                        )
+
+                        // Run callback (optional)
+                        onExerciseSelected(exercise.exerciseName)
+
+                        // Go back
+                        navController.popBackStack()
+                    }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                items(state.exercises) { exercise ->
-                    val imageResId = remember(exercise.imageName) {
-                        context.resources.getIdentifier(exercise.imageName, "drawable", context.packageName)
-                    }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (exercise.imageName.isBlank()) {
-                            Image(
-                                painter = painterResource(id = imageResId),
-                                contentDescription = exercise.exerciseName,
-                                modifier = Modifier.size(64.dp)
-                                    .clickable {
-                                        println("Works again oh yeah")
-                                    }
-                            )
-                        } else {
-                            Image(
-                                painter = painterResource(id = R.drawable.exercise),
-                                contentDescription = exercise.exerciseName,
-                                modifier = Modifier.size(64.dp)
-                                    .clickable{
-                                        println("Alt image loaded")
-                                    }
-                            )
-                        }
-                            Text(
-                                text = exercise.exerciseName,
-                                fontSize = 20.sp,
-                                modifier = Modifier.padding(start = 16.dp)
-                            )
-                        }
-                    }
-                }
+                Text(exercise.exerciseName)
             }
         }
     }
+}

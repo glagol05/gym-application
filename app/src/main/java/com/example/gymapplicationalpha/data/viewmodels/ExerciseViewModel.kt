@@ -54,7 +54,7 @@ class ExerciseViewModel(
                 viewModelScope.launch {
                     val crossRef = WorkoutExerciseCrossRef(
                         workoutSession = event.workoutSession,
-                        exerciseName = event.exerciseName
+                        exerciseId = event.exerciseId
                     )
                     exerciseDao.addExerciseToWorkout(crossRef)
                 }
@@ -64,7 +64,7 @@ class ExerciseViewModel(
                 viewModelScope.launch {
                     val crossRef = WorkoutExerciseCrossRef(
                         workoutSession = event.workoutSession,
-                        exerciseName = event.exerciseName
+                        exerciseId = event.exerciseId
                     )
                     exerciseDao.removeExerciseFromWorkout(crossRef)
                 }

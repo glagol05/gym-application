@@ -8,7 +8,9 @@ sealed class Screen(val route: String) {
         fun passSession(workoutSession: Int): String = "workout_details/$workoutSession"
     }
     object AddWorkout : Screen("add_workout")
-    object AddExerciseScreen : Screen("add_exercise_screen")
+    object AddExerciseScreen : Screen("add_exercise_screen/{workoutSession}") {
+        fun passSession(workoutSession: Int): String = "add_exercise_screen/$workoutSession"
+    }
     object AddExercise : Screen("add_exercise")
     object Statistics : Screen("statistics")
     object Calendar : Screen("calendar")

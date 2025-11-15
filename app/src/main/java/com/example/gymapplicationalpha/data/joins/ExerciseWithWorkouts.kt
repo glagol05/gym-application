@@ -10,7 +10,7 @@ import com.example.gymapplicationalpha.data.entity.Workout
 data class ExercisesWithWorkouts (
     @Embedded val exercise: Exercise,
     @Relation(
-        parentColumn = "exerciseName",
+        parentColumn = "exerciseId",
         entityColumn = "workoutSession",
         associateBy = Junction(WorkoutExerciseCrossRef::class)
     )

@@ -13,7 +13,6 @@ import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.Workout
 import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
 import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
-import kotlin.synchronized
 
 @Database(
     entities = [
@@ -22,9 +21,8 @@ import kotlin.synchronized
         WorkoutExerciseSet::class,
         WorkoutExerciseCrossRef::class
     ],
-    version = 3
+    version = 4
 )
-
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val workoutDao: WorkoutDao
@@ -35,63 +33,17 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        val CLEAR_DATABASE_MIGRATION = object : Migration(2, 3) {
+        val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Drop old tables
-                database.execSQL("DROP TABLE IF EXISTS exercises")
-                database.execSQL("DROP TABLE IF EXISTS workouts")
-                database.execSQL("DROP TABLE IF EXISTS workout_exercise_sets")
+                // Drop old junction table and recreate with exerciseId
                 database.execSQL("DROP TABLE IF EXISTS WorkoutExerciseCrossRef")
-
-                // Recreate tables according to new schema
                 database.execSQL("""
-            CREATE TABLE IF NOT EXISTS `exercises` (
-                `exerciseId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                `exerciseName` TEXT NOT NULL,
-                `exerciseType` TEXT NOT NULL,
-                `imageName` TEXT NOT NULL
-            )
-        """)
-                database.execSQL("""
-            CREATE TABLE IF NOT EXISTS `workouts` (
-                `workoutSession` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                `date` TEXT NOT NULL,
-                `workoutType` TEXT NOT NULL,
-                `description` TEXT
-            )
-        """)
-                database.execSQL("""
-            CREATE TABLE IF NOT EXISTS `workout_exercise_sets` (
-                `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                `workoutId` INTEGER,
-                `exerciseName` TEXT,
-                `setNumber` INTEGER NOT NULL,
-                `repNumber` INTEGER NOT NULL,
-                `weight` REAL
-            )
-        """)
-                database.execSQL("""
-            CREATE TABLE IF NOT EXISTS `WorkoutExerciseCrossRef` (
-                `workoutSession` INTEGER NOT NULL,
-                `exerciseName` TEXT NOT NULL,
-                PRIMARY KEY(`workoutSession`, `exerciseName`)
-            )
-        """)
-            }
-        }
-
-        val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Create the new table for WorkoutExerciseSet
-                database.execSQL("""
-            CREATE TABLE IF NOT EXISTS `workout_exercise_sets` (
-                `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-                `workoutId` INTEGER, 
-                `exerciseName` TEXT, 
-                `setNumber` INTEGER NOT NULL, 
-                `repNumber` INTEGER NOT NULL, 
-                `weight` REAL)
-        """)
+                    CREATE TABLE IF NOT EXISTS `WorkoutExerciseCrossRef` (
+                        `workoutSession` INTEGER NOT NULL,
+                        `exerciseId` INTEGER NOT NULL,
+                        PRIMARY KEY(`workoutSession`, `exerciseId`)
+                    )
+                """)
             }
         }
 
@@ -102,7 +54,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "gymapp_db"
                 )
-                    .addMigrations(CLEAR_DATABASE_MIGRATION)
+                    .addMigrations(MIGRATION_3_4)
                     .build()
                 INSTANCE = instance
                 instance

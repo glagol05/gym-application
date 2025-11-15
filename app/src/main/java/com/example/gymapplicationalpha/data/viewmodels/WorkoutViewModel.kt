@@ -7,8 +7,10 @@ import com.example.gymapplicationalpha.data.daos.WorkoutDao
 import com.example.gymapplicationalpha.data.entity.Workout
 import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
+import com.example.gymapplicationalpha.data.joins.WorkoutWithExercises
 import com.example.gymapplicationalpha.data.states.WorkoutState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -43,6 +45,13 @@ class WorkoutViewModel(
     }
     .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), WorkoutState())
 
+    fun getWorkoutById(id: Int): Flow<Workout?> {
+        return workoutDao.getWorkoutById(id)
+    }
+
+    fun getExercisesForWorkout(workoutSession: Int): Flow<WorkoutWithExercises> {
+        return workoutDao.getWorkoutWithExercises(workoutSession)
+    }
 
     fun onEvent(event: WorkoutEvent) {
         when(event) {
@@ -50,7 +59,7 @@ class WorkoutViewModel(
                 viewModelScope.launch {
                     val crossRef = WorkoutExerciseCrossRef(
                         workoutSession = event.workoutSession,
-                        exerciseName = event.exerciseName
+                        exerciseId = event.exerciseId
                     )
                     workoutDao.upsertWorkoutExerciseCrossRef(crossRef)
                 }
@@ -60,7 +69,7 @@ class WorkoutViewModel(
                 viewModelScope.launch {
                     val crossRef = WorkoutExerciseCrossRef(
                         workoutSession = event.workoutSession,
-                        exerciseName = event.exerciseName
+                        exerciseId = event.exerciseId
                     )
                     workoutDao.deleteWorkoutExerciseCrossRef(crossRef)
                 }

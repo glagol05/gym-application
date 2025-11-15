@@ -13,12 +13,12 @@ sealed interface ExerciseEvent {
 
     data class AddExerciseToWorkout(
         val workoutSession: Int,
-        val exerciseName: String
+        val exerciseId: Int
     ) : ExerciseEvent
 
     data class RemoveExerciseFromWorkout(
         val workoutSession: Int,
-        val exerciseName: String
+        val exerciseId: Int
     ) : ExerciseEvent
 
     data class SortExercise(val SortType: SortType): ExerciseEvent

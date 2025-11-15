@@ -11,13 +11,13 @@ data class WorkoutWithSets(
     @Embedded val workout: Workout,
     @Relation(
         parentColumn = "workoutSession",
-        entityColumn = "exerciseName",
+        entityColumn = "exerciseId",
         associateBy = Junction(WorkoutExerciseCrossRef::class)
     )
     val exercises: List<Exercise>,
     @Relation(
         parentColumn = "workoutSession",
-        entityColumn = "exerciseName"
+        entityColumn = "workoutId"
     )
     val sets: List<WorkoutExerciseSet>
 )
