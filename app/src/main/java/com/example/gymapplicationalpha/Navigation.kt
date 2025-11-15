@@ -1,10 +1,14 @@
 package com.example.gymapplicationalpha
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 import com.example.gymapplicationalpha.pages.AddExercise
@@ -15,7 +19,9 @@ import com.example.gymapplicationalpha.pages.MainScreen
 import com.example.gymapplicationalpha.pages.Settings
 import com.example.gymapplicationalpha.pages.Statistics
 import com.example.gymapplicationalpha.pages.Workout
+import com.example.gymapplicationalpha.pages.WorkoutDetails
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -26,6 +32,18 @@ fun Navigation() {
         }
         composable(route = Screen.Workout.route) {
             Workout(navController = navController)
+        }
+        composable(
+            route = Screen.WorkoutDetails.route,
+            arguments = listOf(navArgument("workoutSession") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val workoutSession = backStackEntry.arguments?.getInt("workoutSession") ?: 0
+
+            WorkoutDetails(
+                navController = navController,
+                workoutSession = workoutSession
+            )
         }
         composable(route = Screen.AddWorkout.route) {
             AddWorkout(navController = navController)

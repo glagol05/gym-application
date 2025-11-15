@@ -31,9 +31,12 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts ORDER BY date ASC")
     fun getWorkoutsByDate(): Flow<List<Workout>>
 
+    @Query("SELECT * FROM workouts ORDER BY workoutSession ASC")
+    fun getWorkoutsById(): Flow<List<Workout>>
+
     @Transaction
     @Query("SELECT * FROM exercises WHERE exerciseName IN (SELECT exerciseName FROM WorkoutExerciseCrossRef WHERE workoutSession = :workoutSession)")
-    suspend fun getExercisesForWorkout(workoutSession: Int): List<Exercise>
+    fun getExercisesForWorkout(workoutSession: Int): Flow<List<Exercise>>
 
     @Transaction
     @Query("SELECT * FROM workouts WHERE workoutSession IN (SELECT workoutSession FROM workoutexercisecrossref WHERE exerciseName = :exerciseName)")

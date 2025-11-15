@@ -73,8 +73,6 @@ fun Workout(navController: NavController) {
             value = text,
             onValueChange = { text = it },
             label = { Text("Workout Type") },
-
-
             )
         SimpleDatePickerField { date ->
             selectedDate = date
@@ -104,10 +102,12 @@ fun Workout(navController: NavController) {
                     WorkoutCard(
                         workout.date,
                         workout.workoutType,
-                        onClick = { println("Clicked $workout") }
+                        onClick = {
+                            println("Clicked $workout")
+                            navController.navigate(Screen.WorkoutDetails.passSession(workout.workoutSession))
+                        }
                     )
                 }
-
             }
         }
     }
