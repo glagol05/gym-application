@@ -74,13 +74,12 @@ class WorkoutViewModel(
                     workoutDao.deleteWorkout(event.workout)
                 }
             }
-            WorkoutEvent.SaveWorkout -> {
-                val date = state.value.date
-                val type = state.value.type
-                val description = state.value.description
-                if (date.isBlank()) return
-
-                val workout = Workout(date = date, workoutType = type, description = description)
+            is WorkoutEvent.SaveWorkout -> {
+                val workout = Workout(
+                    date = event.date,
+                    workoutType = event.type,
+                    description = event.description
+                )
                 viewModelScope.launch {
                     workoutDao.upsertWorkout(workout)
                 }

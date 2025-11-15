@@ -5,7 +5,7 @@ import com.example.gymapplicationalpha.data.entity.Workout
 
 sealed interface WorkoutEvent {
 
-    object SaveWorkout: WorkoutEvent
+    data class SaveWorkout(val date: String, val type: String, val description: String?) : WorkoutEvent
 
     data class DeleteWorkout(val workout: Workout): WorkoutEvent
 

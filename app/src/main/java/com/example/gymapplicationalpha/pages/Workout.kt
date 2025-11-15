@@ -80,9 +80,13 @@ fun Workout(navController: NavController) {
 
         Button(
             onClick = {
-                workoutViewModel.onEvent(WorkoutEvent.setWorkoutType(text))
-                workoutViewModel.onEvent(WorkoutEvent.setWorkoutDate(selectedDate.toString()))
-                workoutViewModel.onEvent(WorkoutEvent.SaveWorkout)
+                workoutViewModel.onEvent(
+                    WorkoutEvent.SaveWorkout(
+                        date = selectedDate.toString(),
+                        type = text,
+                        description = null
+                    )
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()
