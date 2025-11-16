@@ -4,6 +4,7 @@ enum class SortType {
 
     DATE,
     EXERCISE_NAME,
+    EXERCISE_ID,
     EXERCISE_TYPE,
     WORKOUT_DATE,
     WORKOUT_TYPE,

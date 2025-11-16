@@ -4,6 +4,8 @@ import com.example.gymapplicationalpha.data.SortType
 import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
 
 data class WorkoutExerciseSetState (
+    val workoutId: Int? = null,
+    val exerciseId: Int? = null,
     val sets: List<WorkoutExerciseSet> = emptyList(),
     val setNumber: Int = 0,
     val repNumber: Int = 0,

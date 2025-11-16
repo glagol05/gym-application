@@ -22,15 +22,15 @@ class WorkoutExerciseSetViewModel (
 ): ViewModel() {
 
     private val _workoutId = MutableStateFlow<Int?>(null)
-    private val _exerciseName = MutableStateFlow<String?>(null)
+    private val _exerciseId = MutableStateFlow<Int?>(null)
     private val _sortType = MutableStateFlow(SortType.SET_NUMBER)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val _sets = combine(_workoutId, _exerciseName, _sortType) { workoutId, exerciseName, sortType ->
-        if (workoutId != null && exerciseName != null) {
+    private val _sets = combine(_workoutId, _exerciseId, _sortType) { workoutId, exerciseId, sortType ->
+        if (workoutId != null && exerciseId != null) {
             when (sortType) {
-                SortType.SET_NUMBER -> workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseName)
-                else -> workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseName)
+                SortType.SET_NUMBER -> workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseId)
+                else -> workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseId)
             }
         } else {
             flowOf(emptyList<WorkoutExerciseSet>())
@@ -49,6 +49,19 @@ class WorkoutExerciseSetViewModel (
     }
         .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), WorkoutExerciseSetState())
 
+    fun load(workoutId: Int, exerciseId: Int) {
+        _workoutId.value = workoutId
+        _exerciseId.value = exerciseId
+        _state.value = _state.value.copy(
+            workoutId = workoutId,
+            exerciseId = exerciseId
+        )
+    }
+
+    fun updateSetNumber(v: Int) { _state.value = _state.value.copy(setNumber = v) }
+    fun updateRepNumber(v: Int) { _state.value = _state.value.copy(repNumber = v) }
+    fun updateWeight(v: Float) { _state.value = _state.value.copy(weight = v) }
+
     fun onEvent(event: WorkoutExerciseSetEvent) {
         when(event) {
             is WorkoutExerciseSetEvent.deleteSet -> {
@@ -57,15 +70,26 @@ class WorkoutExerciseSetViewModel (
                 }
             }
             WorkoutExerciseSetEvent.saveSet -> {
-                val setNumber = state.value.setNumber
-                val repNumber = state.value.repNumber
-                val weight = state.value.weight
-                //if (setNumber) return
+                val s = state.value
+                if (s.workoutId == null || s.exerciseId == null) return
 
-                val set = WorkoutExerciseSet(setNumber = setNumber, repNumber = repNumber, weight = weight)
+                val set = WorkoutExerciseSet(
+                    workoutId = s.workoutId,
+                    exerciseId = s.exerciseId,
+                    setNumber = s.setNumber,
+                    repNumber = s.repNumber,
+                    weight = s.weight
+                )
+
                 viewModelScope.launch {
                     workoutExerciseSetDao.upsertSet(set)
                 }
+
+                _state.value = _state.value.copy(
+                    setNumber = 0,
+                    repNumber = 0,
+                    weight = 0f
+                )
             }
             is WorkoutExerciseSetEvent.sortSet -> {
                 _sortType.value = event.sortType

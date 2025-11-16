@@ -22,6 +22,6 @@ interface WorkoutExerciseSetDao {
     @Query("SELECT * FROM workouts WHERE workoutSession = :workoutId")
     fun getWorkoutWithSets(workoutId: Int): List<WorkoutWithSets>
 
-    @Query("SELECT * FROM workout_exercise_sets WHERE workoutId = :workoutId AND exerciseName = :exerciseName ORDER BY setNumber ASC")
-    fun getSetsForExerciseInWorkout(workoutId: Int, exerciseName: String): Flow<List<WorkoutExerciseSet>>
+    @Query("SELECT * FROM workout_exercise_sets WHERE workoutId = :workoutId AND exerciseId = :exerciseId ORDER BY setNumber ASC")
+    fun getSetsForExerciseInWorkout(workoutId: Int, exerciseId: Int): Flow<List<WorkoutExerciseSet>>
 }

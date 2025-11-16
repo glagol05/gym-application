@@ -8,7 +8,7 @@ data class WorkoutExerciseSet(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val workoutId: Int? = null,
-    val exerciseName: String? = "",
+    val exerciseId: Int? = null,
     val setNumber: Int,
     val repNumber: Int,
     val weight: Float? = null
