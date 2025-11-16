@@ -27,6 +27,7 @@ import com.google.crypto.tink.shaded.protobuf.LazyStringArrayList.emptyList
 import kotlin.collections.emptyList
 import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.events.ExerciseEvent
+import com.example.gymapplicationalpha.data.viewmodels.WorkoutExerciseSetViewModel
 
 @Composable
 fun WorkoutDetails(
@@ -39,6 +40,7 @@ fun WorkoutDetails(
 
     val workoutDao = appDatabase.workoutDao
     val exerciseDao = appDatabase.exerciseDao
+    val setDao = appDatabase.workoutExerciseSetDao
 
     val workoutViewModel: WorkoutViewModel = remember {
         WorkoutViewModel(workoutDao = workoutDao)
@@ -46,6 +48,10 @@ fun WorkoutDetails(
 
     val exerciseViewModel: ExerciseViewModel = remember {
         ExerciseViewModel(exerciseDao = exerciseDao)
+    }
+
+    val setViewModel: WorkoutExerciseSetViewModel = remember {
+        WorkoutExerciseSetViewModel(workoutExerciseSetDao = setDao)
     }
 
     val workoutWithExercises by workoutViewModel.getExercisesForWorkout(workoutSession)
