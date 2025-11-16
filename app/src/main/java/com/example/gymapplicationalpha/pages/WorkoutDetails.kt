@@ -2,6 +2,7 @@ package com.example.gymapplicationalpha.pages
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,6 +22,7 @@ import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 import com.google.crypto.tink.shaded.protobuf.LazyStringArrayList.emptyList
 import kotlin.collections.emptyList
 import com.example.gymapplicationalpha.data.entity.Exercise
+import com.example.gymapplicationalpha.data.events.ExerciseEvent
 
 @Composable
 fun WorkoutDetails(
@@ -60,6 +62,13 @@ fun WorkoutDetails(
                 text = exercise.exerciseName,
                 modifier = Modifier.padding(vertical = 4.dp)
             )
+            Button(
+                onClick = {
+                    exerciseViewModel.onEvent(ExerciseEvent.RemoveExerciseFromWorkout(workoutSession, exercise.exerciseId))
+                }
+            ) {
+                Text(text = "Remove exercise")
+            }
         }
     }
 }
