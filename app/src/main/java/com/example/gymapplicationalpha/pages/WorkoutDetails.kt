@@ -145,8 +145,10 @@ fun WorkoutDetails(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     var initialSet by remember {
-                        mutableStateOf("YYY")
+                        mutableStateOf("")
                     }
+                    Text(text = "Set ${i}: ")
+
                     BasicTextField(
                         value = initialSet,
                         onValueChange = { initialSet = it },
@@ -156,23 +158,23 @@ fun WorkoutDetails(
                     )
                 }
             }
-            sets.forEach { set ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 24.dp, top = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    var initialSet by remember {
-                        mutableStateOf("YYY")
-                    }
-                    TextField(
-                        value = initialSet,
-                        onValueChange = { initialSet = it }
-                    )
-                    Text(text = "Set ${set.setNumber}: ${set.repNumber} reps @ ${set.weight ?: 0f} kg")
-                }
-            }
+//            sets.forEach { set ->
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(start = 24.dp, top = 6.dp),
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    var initialSet by remember {
+//                        mutableStateOf("YYY")
+//                    }
+//                    TextField(
+//                        value = initialSet,
+//                        onValueChange = { initialSet = it }
+//                    )
+//                    Text(text = "Set ${set.setNumber}: ${set.repNumber} reps @ ${set.weight ?: 0f} kg")
+//                }
+//            }
         }
         Spacer(modifier = Modifier
             .padding(10.dp)
