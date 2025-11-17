@@ -5,7 +5,13 @@ import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
 
 sealed interface WorkoutExerciseSetEvent {
 
-    object saveSet: WorkoutExerciseSetEvent
+    data class saveSet(
+        val workoutSession: Int,
+        val exerciseId: Int,
+        val setNumber: Int,
+        val repNumber: Int,
+        val weight: String
+    ) : WorkoutExerciseSetEvent
 
     data class deleteSet(val workoutExerciseSet: WorkoutExerciseSet): WorkoutExerciseSetEvent
 

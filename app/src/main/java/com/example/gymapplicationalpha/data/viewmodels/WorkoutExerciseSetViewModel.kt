@@ -71,19 +71,14 @@ class WorkoutExerciseSetViewModel(
                 }
             }
 
-            WorkoutExerciseSetEvent.saveSet -> {
-                val s = state.value
-
-                if (s.workoutId == null || s.exerciseId == null) return
-
+            is WorkoutExerciseSetEvent.saveSet -> {
                 val set = WorkoutExerciseSet(
-                    workoutId = s.workoutId!!,
-                    exerciseId = s.exerciseId!!,
-                    setNumber = s.setNumber,
-                    repNumber = s.repNumber,
-                    weight = s.weight
+                    workoutId = event.workoutSession,
+                    exerciseId = event.exerciseId,
+                    setNumber = event.setNumber,
+                    repNumber = event.repNumber,
+                    weight = event.weight.toFloatOrNull() ?: 0f
                 )
-
                 viewModelScope.launch {
                     workoutExerciseSetDao.upsertSet(set)
                 }

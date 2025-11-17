@@ -36,6 +36,7 @@ import kotlin.collections.emptyList
 import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
 import com.example.gymapplicationalpha.data.events.ExerciseEvent
+import com.example.gymapplicationalpha.data.events.WorkoutExerciseSetEvent
 import com.example.gymapplicationalpha.data.joins.WorkoutWithSets
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutExerciseSetViewModel
 
@@ -137,6 +138,8 @@ fun WorkoutDetails(
                 )
             }
 
+            val setStates = remember { List(3) { mutableStateOf("") } }
+
             for (i in 1..3) {
                 Row(
                     modifier = Modifier
@@ -150,8 +153,8 @@ fun WorkoutDetails(
                     Text(text = "Set ${i}: ")
 
                     BasicTextField(
-                        value = initialSet,
-                        onValueChange = { initialSet = it },
+                        value = setStates[i - 1 ].value,
+                        onValueChange = { setStates[i - 1].value = it },
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Transparent)
@@ -175,19 +178,31 @@ fun WorkoutDetails(
 //                    Text(text = "Set ${set.setNumber}: ${set.repNumber} reps @ ${set.weight ?: 0f} kg")
 //                }
 //            }
-        }
-        Spacer(modifier = Modifier
-            .padding(10.dp)
-        )
-        Button(
-            onClick = {
-                System.out.print(1)
-            },
-            modifier = Modifier
-                .padding(start = 18.dp)
-                .size(height = 35.dp, width = 80.dp)
-        ) {
-            Text("Save")
+            Spacer(
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+            Button(
+                onClick = {
+                    setStates.forEachIndexed { index, state ->
+                        val reps = state.value.toIntOrNull() ?: 0
+                        setViewModel.onEvent(
+                            WorkoutExerciseSetEvent.saveSet(
+                                workoutSession = workoutSession,
+                                exerciseId = exercise.exerciseId,
+                                setNumber = index + 1,
+                                repNumber = reps,
+                                weight = weight
+                            )
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .padding(start = 18.dp)
+                    .size(height = 35.dp, width = 80.dp)
+            ) {
+                Text("Save")
+            }
         }
     }
 }
