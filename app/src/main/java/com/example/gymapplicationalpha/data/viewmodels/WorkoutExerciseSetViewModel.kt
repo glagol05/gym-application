@@ -9,6 +9,7 @@ import com.example.gymapplicationalpha.data.events.WorkoutExerciseSetEvent
 import com.example.gymapplicationalpha.data.states.WorkoutExerciseSetState
 import com.example.gymapplicationalpha.data.states.WorkoutState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -17,29 +18,35 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class WorkoutExerciseSetViewModel (
+class WorkoutExerciseSetViewModel(
     private val workoutExerciseSetDao: WorkoutExerciseSetDao
-): ViewModel() {
+) : ViewModel() {
 
     private val _workoutId = MutableStateFlow<Int?>(null)
     private val _exerciseId = MutableStateFlow<Int?>(null)
     private val _sortType = MutableStateFlow(SortType.SET_NUMBER)
 
+    private val _state = MutableStateFlow(WorkoutExerciseSetState())
+
+    fun load(workoutId: Int, exerciseId: Int) {
+        _workoutId.value = workoutId
+        _exerciseId.value = exerciseId
+
+        _state.value = _state.value.copy(
+            workoutId = workoutId,
+            exerciseId = exerciseId
+        )
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _sets = combine(_workoutId, _exerciseId, _sortType) { workoutId, exerciseId, sortType ->
         if (workoutId != null && exerciseId != null) {
-            when (sortType) {
-                SortType.SET_NUMBER -> workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseId)
-                else -> workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseId)
-            }
+            workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseId)
         } else {
             flowOf(emptyList<WorkoutExerciseSet>())
         }
-    }
-        .flatMapLatest { it }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    private val _state = MutableStateFlow(WorkoutExerciseSetState())
+    }.flatMapLatest { it }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList<WorkoutExerciseSet>())
 
     val state = combine(_state, _sortType, _sets) { state, sortType, sets ->
         state.copy(
@@ -47,35 +54,31 @@ class WorkoutExerciseSetViewModel (
             sortType = sortType
         )
     }
-        .stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), WorkoutExerciseSetState())
-
-    fun load(workoutId: Int, exerciseId: Int) {
-        _workoutId.value = workoutId
-        _exerciseId.value = exerciseId
-        _state.value = _state.value.copy(
-            workoutId = workoutId,
-            exerciseId = exerciseId
-        )
-    }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), WorkoutExerciseSetState())
 
     fun updateSetNumber(v: Int) { _state.value = _state.value.copy(setNumber = v) }
     fun updateRepNumber(v: Int) { _state.value = _state.value.copy(repNumber = v) }
     fun updateWeight(v: Float) { _state.value = _state.value.copy(weight = v) }
 
+    fun getSetsForExerciseInWorkout(workoutId: Int, exerciseId: Int) =
+        workoutExerciseSetDao.getSetsForExerciseInWorkout(workoutId, exerciseId)
+
     fun onEvent(event: WorkoutExerciseSetEvent) {
-        when(event) {
+        when (event) {
             is WorkoutExerciseSetEvent.deleteSet -> {
                 viewModelScope.launch {
                     workoutExerciseSetDao.deleteSet(event.workoutExerciseSet)
                 }
             }
+
             WorkoutExerciseSetEvent.saveSet -> {
                 val s = state.value
+
                 if (s.workoutId == null || s.exerciseId == null) return
 
                 val set = WorkoutExerciseSet(
-                    workoutId = s.workoutId,
-                    exerciseId = s.exerciseId,
+                    workoutId = s.workoutId!!,
+                    exerciseId = s.exerciseId!!,
                     setNumber = s.setNumber,
                     repNumber = s.repNumber,
                     weight = s.weight
@@ -91,6 +94,7 @@ class WorkoutExerciseSetViewModel (
                     weight = 0f
                 )
             }
+
             is WorkoutExerciseSetEvent.sortSet -> {
                 _sortType.value = event.sortType
             }
