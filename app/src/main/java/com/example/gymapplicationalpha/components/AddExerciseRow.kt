@@ -36,3 +36,23 @@ fun AddExerciseRow(onAddExerciseClicked: () -> Unit) {
         Text("Add Exercise")
     }
 }
+
+//@Composable
+//fun AddExerciseRow(onAddExerciseClicked: () -> Unit) {
+//    Button(
+//        onClick = { onAddExerciseClicked() },
+//        shape = RoundedCornerShape(4.dp),
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+//    ) {
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            Icon(
+//                imageVector = Icons.Default.Add,
+//                contentDescription = "Add Exercise",
+//                modifier = Modifier.padding(end = 8.dp)
+//            )
+//            Text("Add Exercise")
+//        }
+//    }
+//}

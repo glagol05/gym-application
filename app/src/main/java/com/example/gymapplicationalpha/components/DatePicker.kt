@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -49,7 +50,9 @@ fun SimpleDatePickerField(
     ) {
         Button(onClick = {
             dateDialogueState.show()
-        }) {
+        },
+            shape = RoundedCornerShape(4.dp)
+        ) {
             Text(text = "Pick date")
         }
         Text(text = formattedDate)

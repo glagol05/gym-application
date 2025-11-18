@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -29,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gymapplicationalpha.Screen
@@ -73,6 +76,7 @@ fun Workout(navController: NavController) {
             value = text,
             onValueChange = { text = it },
             label = { Text("Workout Type") },
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
             )
         SimpleDatePickerField { date ->
             selectedDate = date
@@ -88,8 +92,9 @@ fun Workout(navController: NavController) {
                     )
                 )
             },
+            shape = RoundedCornerShape(0.dp),
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Text("Add workout session")
         }
