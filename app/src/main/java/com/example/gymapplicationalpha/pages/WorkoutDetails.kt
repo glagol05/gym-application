@@ -91,9 +91,6 @@ fun WorkoutDetails(
         ) { }
 
         exercisesForWorkout.forEach { exercise ->
-            val sets: List<WorkoutExerciseSet> by setViewModel
-                .getSetsForExerciseInWorkout(workoutSession, exercise.exerciseId)
-                .collectAsState(initial = emptyList<WorkoutExerciseSet>())
 
             Row(
                 modifier = Modifier
@@ -120,8 +117,14 @@ fun WorkoutDetails(
                 }
             }
 
-            var weight by remember {
-                mutableStateOf("ll")
+            val sets: List<WorkoutExerciseSet> by setViewModel
+                .getSetsForExerciseInWorkout(workoutSession, exercise.exerciseId)
+                .collectAsState(initial = emptyList<WorkoutExerciseSet>())
+
+            val weightState = remember(sets) {
+                mutableStateOf(
+                    sets.firstOrNull()?.weight?.toString() ?: ""
+                )
             }
 
             Row(
@@ -140,37 +143,39 @@ fun WorkoutDetails(
                 )
 
                 BasicTextField(
-                    value = weight,
-                    onValueChange = { weight = it },
+                    value = weightState.value,
+                    onValueChange = { weightState.value = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.Transparent)
                 )
             }
 
-            val setStates = remember { List(3) { mutableStateOf("") } }
+            val setStates = remember(sets) {
+                List(3) { i ->
+                    mutableStateOf(sets.getOrNull(i)?.repNumber?.toString() ?: "")
+                }
+            }
 
-            for (i in 1..3) {
+            for (i in 0 until 3) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 24.dp, top = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    var initialSet by remember {
-                        mutableStateOf("")
-                    }
-                    Text(text = "Set ${i}: ")
+                    Text(text = "Set ${i + 1}: ")
 
                     BasicTextField(
-                        value = setStates[i - 1 ].value,
-                        onValueChange = { setStates[i - 1].value = it },
+                        value = setStates.getOrNull(i)?.value ?: "",
+                        onValueChange = { setStates[i].value = it },
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Transparent)
                     )
                 }
             }
+
 //            sets.forEach { set ->
 //                Row(
 //                    modifier = Modifier
@@ -202,7 +207,7 @@ fun WorkoutDetails(
                                 exerciseId = exercise.exerciseId,
                                 setNumber = index + 1,
                                 repNumber = reps,
-                                weight = weight
+                                weight = weightState.value
                             )
                         )
                     }
