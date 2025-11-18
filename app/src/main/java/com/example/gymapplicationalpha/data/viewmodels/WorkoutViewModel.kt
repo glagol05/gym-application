@@ -75,6 +75,12 @@ class WorkoutViewModel(
                 }
             }
 
+            is WorkoutEvent.DeleteCrossRefByWorkout -> {
+                viewModelScope.launch {
+                    workoutDao.deleteCrossRefByWorkout(event.workoutSession)
+                }
+            }
+
             is WorkoutEvent.SortWorkout -> {
                 _sortType.value = event.SortType
             }

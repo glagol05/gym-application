@@ -26,6 +26,12 @@ interface WorkoutDao {
     @Delete
     suspend fun deleteWorkoutExerciseCrossRef(crossRef: WorkoutExerciseCrossRef)
 
+    @Delete
+    suspend fun deleteCrossRefByWorkout(workout: Workout)
+
+    @Query("DELETE FROM WorkoutExerciseCrossRef where workoutSession = :workoutSession")
+    suspend fun deleteCrossRefByWorkout(workoutSession: Int)
+
     @Query("SELECT * FROM workouts WHERE workoutSession = :id")
     fun getWorkoutById(id: Int): Flow<Workout?>
 

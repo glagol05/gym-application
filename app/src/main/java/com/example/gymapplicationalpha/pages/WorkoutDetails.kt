@@ -36,6 +36,7 @@ import kotlin.collections.emptyList
 import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.WorkoutExerciseSet
 import com.example.gymapplicationalpha.data.events.ExerciseEvent
+import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.events.WorkoutExerciseSetEvent
 import com.example.gymapplicationalpha.data.joins.WorkoutWithSets
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutExerciseSetViewModel
@@ -79,6 +80,15 @@ fun WorkoutDetails(
         })
         Text(text = workout?.workoutType ?: "")
         Text(text = workout?.date ?: "")
+        Button(
+            onClick = {
+                if (workout == null) return@Button
+                workoutViewModel.onEvent(WorkoutEvent.DeleteWorkout(workout))
+                workoutViewModel.onEvent(WorkoutEvent.DeleteCrossRefByWorkout(workoutSession))
+                setViewModel.onEvent(WorkoutExerciseSetEvent.deleteAlLSetsByWorkoutId(workoutSession))
+                navController.popBackStack()
+            }
+        ) { }
 
         exercisesForWorkout.forEach { exercise ->
             val sets: List<WorkoutExerciseSet> by setViewModel

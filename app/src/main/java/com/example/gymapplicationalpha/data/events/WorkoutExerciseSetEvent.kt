@@ -15,5 +15,7 @@ sealed interface WorkoutExerciseSetEvent {
 
     data class deleteSet(val workoutExerciseSet: WorkoutExerciseSet): WorkoutExerciseSetEvent
 
+    data class deleteAlLSetsByWorkoutId(val workoutId: Int): WorkoutExerciseSetEvent
+
     data class sortSet(val sortType: SortType): WorkoutExerciseSetEvent
 }

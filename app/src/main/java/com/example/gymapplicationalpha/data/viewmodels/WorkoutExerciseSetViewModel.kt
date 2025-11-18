@@ -71,6 +71,12 @@ class WorkoutExerciseSetViewModel(
                 }
             }
 
+            is WorkoutExerciseSetEvent.deleteAlLSetsByWorkoutId -> {
+                viewModelScope.launch {
+                    workoutExerciseSetDao.deleteAllSetsByWorkoutId(event.workoutId)
+                }
+            }
+
             is WorkoutExerciseSetEvent.saveSet -> {
                 val set = WorkoutExerciseSet(
                     workoutId = event.workoutSession,

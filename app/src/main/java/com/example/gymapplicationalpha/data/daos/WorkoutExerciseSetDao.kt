@@ -18,6 +18,9 @@ interface WorkoutExerciseSetDao {
     @Delete
     suspend fun deleteSet (workoutExerciseSet: WorkoutExerciseSet)
 
+    @Query("DELETE FROM workout_exercise_sets WHERE workoutId = :workoutId")
+    suspend fun deleteAllSetsByWorkoutId (workoutId: Int)
+
     @Transaction
     @Query("SELECT * FROM workouts WHERE workoutSession = :workoutId")
     fun getWorkoutWithSets(workoutId: Int): List<WorkoutWithSets>
