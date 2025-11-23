@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -18,41 +19,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-@Composable
-fun AddExerciseRow(onAddExerciseClicked: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp)
-            .clickable { onAddExerciseClicked() }
-            .background(Color.Gray),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Add Exercise",
-            modifier = Modifier.padding(end = 8.dp)
-        )
-        Text("Add Exercise")
-    }
-}
-
 //@Composable
 //fun AddExerciseRow(onAddExerciseClicked: () -> Unit) {
-//    Button(
-//        onClick = { onAddExerciseClicked() },
-//        shape = RoundedCornerShape(4.dp),
+//    Row(
 //        modifier = Modifier
 //            .fillMaxWidth()
-//            .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+//            .padding(top = 32.dp, start = 16.dp, end = 16.dp)
+//            .clickable { onAddExerciseClicked() }
+//            .background(Color.Gray),
+//        verticalAlignment = Alignment.CenterVertically
 //    ) {
-//        Row(verticalAlignment = Alignment.CenterVertically) {
-//            Icon(
-//                imageVector = Icons.Default.Add,
-//                contentDescription = "Add Exercise",
-//                modifier = Modifier.padding(end = 8.dp)
-//            )
-//            Text("Add Exercise")
-//        }
+//        Icon(
+//            imageVector = Icons.Default.Add,
+//            contentDescription = "Add Exercise",
+//            modifier = Modifier.padding(end = 8.dp)
+//        )
+//        Text("Add Exercise")
 //    }
 //}
+
+@Composable
+fun AddExerciseRow(onAddExerciseClicked: () -> Unit) {
+    Button(
+        onClick = { onAddExerciseClicked() },
+        shape = RoundedCornerShape(4.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 0.dp, start = 16.dp, end = 16.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Add Exercise",
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Text("Add Exercise")
+        }
+    }
+}

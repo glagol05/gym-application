@@ -7,5 +7,6 @@ import androidx.room.Index
         indices = [Index(value = ["exerciseId"])])
 data class WorkoutExerciseCrossRef (
     val workoutSession: Int,
-    val exerciseId: Int
+    val exerciseId: Int,
+    val addedOrder: Long
 )

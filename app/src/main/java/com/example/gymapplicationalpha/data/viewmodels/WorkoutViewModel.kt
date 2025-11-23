@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymapplicationalpha.data.SortType
 import com.example.gymapplicationalpha.data.daos.WorkoutDao
+import com.example.gymapplicationalpha.data.entity.Exercise
 import com.example.gymapplicationalpha.data.entity.Workout
 import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
@@ -53,13 +54,18 @@ class WorkoutViewModel(
         return workoutDao.getWorkoutWithExercises(workoutSession)
     }
 
+    fun getOrderedExercisesForWorkout(workoutSession: Int): Flow<List<Exercise>> {
+        return workoutDao.getOrderedExercisesForWorkout(workoutSession)
+    }
+
     fun onEvent(event: WorkoutEvent) {
         when(event) {
             is WorkoutEvent.AddWorkoutExerciseCrossRef -> {
                 viewModelScope.launch {
                     val crossRef = WorkoutExerciseCrossRef(
                         workoutSession = event.workoutSession,
-                        exerciseId = event.exerciseId
+                        exerciseId = event.exerciseId,
+                        addedOrder = System.currentTimeMillis()
                     )
                     workoutDao.upsertWorkoutExerciseCrossRef(crossRef)
                 }
@@ -69,7 +75,8 @@ class WorkoutViewModel(
                 viewModelScope.launch {
                     val crossRef = WorkoutExerciseCrossRef(
                         workoutSession = event.workoutSession,
-                        exerciseId = event.exerciseId
+                        exerciseId = event.exerciseId,
+                        addedOrder = System.currentTimeMillis()
                     )
                     workoutDao.deleteWorkoutExerciseCrossRef(crossRef)
                 }

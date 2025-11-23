@@ -48,6 +48,15 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE workoutSession = :workoutSession")
     fun getWorkoutWithExercises(workoutSession: Int): Flow<WorkoutWithExercises>
 
+    @Query("""
+    SELECT e.* FROM exercises AS e
+    INNER JOIN WorkoutExerciseCrossRef AS r
+    ON e.exerciseId = r.exerciseId
+    WHERE r.workoutSession = :workoutSession
+    ORDER BY r.addedOrder ASC
+""")
+    fun getOrderedExercisesForWorkout(workoutSession: Int): Flow<List<Exercise>>
+
     @Transaction
     @Query("SELECT * FROM workouts WHERE workoutSession IN (SELECT workoutSession FROM workoutexercisecrossref WHERE exerciseId = :exerciseId)")
     suspend fun getWorkoutsForExercise(exerciseId: Int): List<Workout>

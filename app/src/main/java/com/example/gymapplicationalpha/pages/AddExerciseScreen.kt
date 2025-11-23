@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,7 +33,7 @@ import com.example.gymapplicationalpha.data.events.WorkoutEvent
 import com.example.gymapplicationalpha.data.viewmodels.ExerciseViewModel
 import com.example.gymapplicationalpha.data.viewmodels.WorkoutViewModel
 
-@SuppressLint("LocalContextResourcesRead", "DiscouragedApi")
+@SuppressLint("LocalContextResourcesRead", "DiscouragedApi", "RememberReturnType")
 @Composable
 fun AddExerciseScreen(
     navController: NavController,
@@ -55,13 +56,19 @@ fun AddExerciseScreen(
 
     val state by exerciseViewModel.state.collectAsState()
 
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(
+            bottom = 50.dp
+        )
+    ) {
         items(state.exercises) { exercise ->
+            val imageResId = remember(exercise.imageName) {
+                context.resources.getIdentifier(exercise.imageName, "drawable", context.packageName)
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        // Add the exercise to this workout
                         workoutViewModel.onEvent(
                             WorkoutEvent.AddWorkoutExerciseCrossRef(
                                 workoutSession = workoutSession,
@@ -69,16 +76,25 @@ fun AddExerciseScreen(
                             )
                         )
 
-                        // Run callback (optional)
                         onExerciseSelected(exercise.exerciseName)
 
-                        // Go back
                         navController.popBackStack()
                     }
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(exercise.exerciseName)
+                Image(
+                    painter = painterResource(id = imageResId),
+                    contentDescription = "image of exercise",
+                    modifier = Modifier
+                        .size(32.dp)
+                )
+                Text(
+                    exercise.exerciseName,
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                    )
             }
         }
     }

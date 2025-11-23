@@ -21,7 +21,7 @@ import com.example.gymapplicationalpha.data.joins.WorkoutExerciseCrossRef
         WorkoutExerciseSet::class,
         WorkoutExerciseCrossRef::class
     ],
-    version = 7
+    version = 8
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -40,48 +40,10 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
 
-        val MIGRATION_5_6 = object : Migration(6, 7) {
+        val MIGRATION_7_8 = object : Migration(7, 8) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // 1. Rename the old table
-                database.execSQL("ALTER TABLE workout_exercise_sets RENAME TO workout_exercise_sets_old")
-
-                // 2. Create the new table with composite primary key
-                database.execSQL("""
-            CREATE TABLE IF NOT EXISTS workout_exercise_sets (
-                workoutId INTEGER NOT NULL,
-                exerciseId INTEGER NOT NULL,
-                setNumber INTEGER NOT NULL,
-                repNumber INTEGER NOT NULL,
-                weight REAL,
-                PRIMARY KEY(workoutId, exerciseId, setNumber)
-            )
-        """)
-
-                // 3. Copy data from old table
-                database.execSQL("""
-            INSERT INTO workout_exercise_sets (workoutId, exerciseId, setNumber, repNumber, weight)
-            SELECT workoutId, exerciseId, setNumber, repNumber, weight
-            FROM workout_exercise_sets_old
-        """)
-
-                // 4. Drop the old table
-                database.execSQL("DROP TABLE workout_exercise_sets_old")
-
-                // 5. Migrate WorkoutExerciseCrossRef as before
-                database.execSQL("ALTER TABLE WorkoutExerciseCrossRef RENAME TO WorkoutExerciseCrossRef_old")
-                database.execSQL("""
-            CREATE TABLE IF NOT EXISTS WorkoutExerciseCrossRef (
-                workoutSession INTEGER NOT NULL,
-                exerciseId INTEGER NOT NULL,
-                PRIMARY KEY(workoutSession, exerciseId)
-            )
-        """)
-                database.execSQL("CREATE INDEX index_WorkoutExerciseCrossRef_exerciseId ON WorkoutExerciseCrossRef(exerciseId)")
-                database.execSQL("""
-            INSERT INTO WorkoutExerciseCrossRef (workoutSession, exerciseId)
-            SELECT workoutSession, exerciseId FROM WorkoutExerciseCrossRef_old
-        """)
-                database.execSQL("DROP TABLE WorkoutExerciseCrossRef_old")
+                // 1. Add the new column with a default value (e.g., 0 or current timestamp)
+                database.execSQL("ALTER TABLE WorkoutExerciseCrossRef ADD COLUMN addedOrder INTEGER NOT NULL DEFAULT 0")
             }
         }
 
@@ -93,7 +55,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "gymapp_db"
                 )
-                    .addMigrations(MIGRATION_5_6)
+                    .addMigrations(MIGRATION_7_8)
                     .build()
                 INSTANCE = instance
                 instance

@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -52,7 +54,7 @@ fun AddExercise(
             value = state.name,
             onValueChange = {
                 exerciseViewModel.onEvent(ExerciseEvent.setExerciseName(it))
-                exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage("squat"))
+                exerciseViewModel.onEvent(ExerciseEvent.setExerciseImage("triceps_overhead_cable"))
             },
             label = { Text("Exercise name") }
         )
@@ -73,7 +75,7 @@ fun AddExercise(
 
         if (state.exercises.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().systemBarsPadding(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.exercises) { exercise ->
@@ -91,7 +93,7 @@ fun AddExercise(
                             Image(
                                 painter = painterResource(id = imageResId),
                                 contentDescription = exercise.exerciseName,
-                                modifier = Modifier.size(64.dp)
+                                modifier = Modifier.size(32.dp)
                                     .clickable {
                                         println("Exercise clicked: ${exercise.exerciseName}")
                                     }
@@ -108,13 +110,20 @@ fun AddExercise(
                         }
                         Text(
                             text = exercise.exerciseName,
-                            fontSize = 20.sp,
+                            fontSize = 16.sp,
                             modifier = Modifier.padding(start = 16.dp)
                         )
                         Button(onClick = {
                             exerciseViewModel.onEvent(ExerciseEvent.DeleteExercise(exercise))
-                        }) {
-                                Text("Delete exercise")
+                        },
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .size(height = 30.dp, width = 80.dp),
+                            shape = RoundedCornerShape(4.dp)
+
+                            ) {
+                                Text(text = "Gone",
+                                    fontSize = 12.sp)
                         }
                     }
                 }
